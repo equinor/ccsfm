@@ -1,0 +1,30 @@
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+
+[build-system]
+requires = ["setuptools>=64.0", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ccs-fmu-models"
+authors = [
+    { name = "CCS Data & Digital Team" },
+]
+description = "Forward model to run Cirrus in ERT"
+readme = "README.md"
+requires-python = ">=3.8"
+# license = { file = "LICENSE" }
+
+dependencies = []
+dynamic = ["version"]
+
+[project.urls]
+repository = "https://github.com/equinor/ccs-fmu-models"
+
+[project.optional-dependencies]
+dev = ["black", "mypy", "pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+src = ["src"]
