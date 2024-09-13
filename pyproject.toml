@@ -5,7 +5,7 @@ requires = ["setuptools>=64.0", "setuptools_scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ccs-fmu-models"
+name = "ccsfm"
 authors = [
     { name = "CCS Data & Digital Team" },
 ]
@@ -14,11 +14,14 @@ readme = "README.md"
 requires-python = ">=3.8"
 # license = { file = "LICENSE" }
 
-dependencies = []
+dependencies = ["ert"]
 dynamic = ["version"]
 
+[project.entry-points."ert"]
+ccsfm_models = "ccsfm.hook_implementations.forward_models"
+
 [project.urls]
-repository = "https://github.com/equinor/ccs-fmu-models"
+repository = "https://github.com/equinor/ccsfm"
 
 [project.optional-dependencies]
 dev = ["black", "mypy", "pytest"]
