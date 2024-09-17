@@ -3,4 +3,7 @@ JOBNAME TEST
 QUEUE_SYSTEM LOCAL
 NUM_REALIZATIONS 1
 
-FORWARD_MODEL RUN_CIRRUS
+FORWARD_MODEL COPY_FILE (<FROM>=/private/akvas/repos/cirrus/data/spe1.in, <TO>=spe1.in)
+FORWARD_MODEL COPY_FILE (<FROM>=/private/akvas/repos/cirrus/data/spe1.grdecl, <TO>=spe1.grdecl)
+
+--FORWARD_MODEL RUN_CIRRUS (<CASE>=spe1.in)
