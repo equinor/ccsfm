@@ -9,7 +9,8 @@ class RunCirrus(ForwardModelStepPlugin):
     def __init__(self) -> None:
         super().__init__(
             name="RUN_CIRRUS",
-            command=["pwd"],
+            command=["/prog/pflotran/bin/_runcirrus", "-q", "local", "-n", "<NUM_CPU>", "-v", "<VERSION>", "<CASE>"],
+            default_mapping={"<NUM_CPU>": 1, "<VERSION>": "latest"},
         )
 
 
