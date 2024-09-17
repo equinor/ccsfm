@@ -1,6 +1,6 @@
 import ert
 
-from ccsfm.forward_models import (
+from ccsfm.forward_models.run_cirrus import (
     RunCirrus,
 )
 
