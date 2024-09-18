@@ -1,14 +1,13 @@
-
-copy_test_files () {
-    cp -r $CI_SOURCE_ROOT/tests $CI_TEST_ROOT/tests
-    cp $CI_SOURCE_ROOT/pyproject.toml $CI_TEST_ROOT
+copy_test_files() {
+	cp -r $CI_SOURCE_ROOT/tests $CI_TEST_ROOT/tests
+	cp $CI_SOURCE_ROOT/pyproject.toml $CI_TEST_ROOT
 }
 
-install_test_dependencies () {
-    pip install ".[test]"
+install_test_dependencies() {
+	pip install ".[test]"
 }
 
-start_tests () {
-    #TODO
-    #pytest -n auto --ert-integration
+start_tests() {
+	pytest
 }
+
