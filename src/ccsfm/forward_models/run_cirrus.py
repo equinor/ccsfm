@@ -5,11 +5,21 @@ from ert import (
     ForwardModelStepPlugin,
 )
 
-class RunCirrus(ForwardModelStepPlugin):
+
+class Cirrus(ForwardModelStepPlugin):
     def __init__(self) -> None:
         super().__init__(
-            name="RUN_CIRRUS",
-            command=["/prog/pflotran/bin/_runcirrus", "-q", "local", "-n", "<NUM_CPU>", "-v", "<VERSION>", "<CASE>"],
+            name="CIRRUS",
+            command=[
+                "/prog/pflotran/bin/_runcirrus",
+                "-q",
+                "local",
+                "-n",
+                "<NUM_CPU>",
+                "-v",
+                "<VERSION>",
+                "<CASE>",
+            ],
             default_mapping={"<NUM_CPU>": 1, "<VERSION>": "latest"},
         )
 
@@ -19,9 +29,10 @@ class RunCirrus(ForwardModelStepPlugin):
         return ForwardModelStepDocumentation(
             category="utility.file_system",
             source_package="ccsfm",
-            source_function_name="RunCirrus",
+            source_function_name="Cirrus",
             description="Add description here",
             examples="""
             | Add examples here
             """,
         )
+
