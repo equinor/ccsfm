@@ -2,6 +2,10 @@ from collections import namedtuple
 import pytest
 import subprocess
 
+from ert.plugins import ErtPluginManager
+
+from ccsfm.forward_models.run_cirrus import Cirrus
+
 DEFAULT_CONFIG = """
 JOBNAME TEST
 
@@ -16,8 +20,13 @@ FORWARD_MODEL {}({})
 """
 
 
-@pytest.mark.usefixtures("setup_tmpdir")
 def test_forward_model_installation():
+    pm = ErtPluginManager()
+    assert Cirrus in pm.forward_model_steps
+
+
+@pytest.mark.usefixtures("setup_tmpdir")
+def test_forward_model_validation():
     config = DEFAULT_CONFIG.format("CIRRUS", "<VERSION>=-1")
 
     with open("config.ert", "w", encoding="utf-8") as file:
