@@ -1,10 +1,10 @@
-from typing import Optional
 import subprocess
+from typing import Optional
 
 from ert import (
     ForwardModelStepDocumentation,
-    ForwardModelStepPlugin,
     ForwardModelStepJSON,
+    ForwardModelStepPlugin,
     ForwardModelStepValidationError,
 )
 
@@ -32,7 +32,7 @@ class Cirrus(ForwardModelStepPlugin):
         version_idx = fm_step_json["argList"].index("-v") + 1
         return_value = subprocess.run(
             [self.EXECUTABLE, "--print-available-versions"],
-            capture_output=True,
+            capture_output=True, check=False,
         )
 
         if (requested_version := fm_step_json["argList"][version_idx]) not in (
@@ -53,4 +53,3 @@ class Cirrus(ForwardModelStepPlugin):
             | Add examples here
             """,
         )
-
