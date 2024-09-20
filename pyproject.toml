@@ -28,6 +28,9 @@ dev = ["black", "mypy", "pytest"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "ert_integration: Involves running the ert application explicitly",
+]
 
 [tool.ruff]
 src = ["src"]

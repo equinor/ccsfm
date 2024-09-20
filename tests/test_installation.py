@@ -25,6 +25,7 @@ def test_forward_model_installation():
     assert Cirrus in pm.forward_model_steps
 
 
+@pytest.mark.ert_integration
 @pytest.mark.usefixtures("setup_tmpdir")
 def test_forward_model_validation():
     config = DEFAULT_CONFIG.format("CIRRUS", "<VERSION>=-1")
