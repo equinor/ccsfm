@@ -9,20 +9,20 @@ def setup_tmpdir(tmpdir):
 
 def pytest_addoption(parser):
     parser.addoption(
-        "--ert-integration",
+        "--uses-cirrus",
         action="store_true",
         default=False,
-        help="Run ERT integration tests",
+        help="Run ERT with Cirrus tests",
     )
 
 
 def pytest_collection_modifyitems(config, items):
-    if config.getoption("--ert-integration"):
+    if config.getoption("--uses-cirrus"):
         # Do not skip tests when --ert-integration is supplied on pytest command line
         return
-    skip_ert_integration = pytest.mark.skip(
-        reason="need --ert-integration option to run"
+    skip_uses_cirrus = pytest.mark.skip(
+        reason="need --uses-cirrus option to run"
     )
     for item in items:
-        if "ert-integration" in item.keywords:
-            item.add_marker(skip_ert_integration)
+        if "uses_cirrus" in item.keywords:
+            item.add_marker(skip_uses_cirrus)
