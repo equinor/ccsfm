@@ -31,7 +31,7 @@ class Cirrus(ForwardModelStepPlugin):
     def validate_pre_experiment(self, fm_step_json: ForwardModelStepJSON) -> None:
         version_idx = fm_step_json["argList"].index("-v") + 1
         return_value = subprocess.run(
-            [self.EXECUTABLE, "--print-available-versions"],
+            [self.EXECUTABLE, "--print-versions"],
             capture_output=True,
         )
 
