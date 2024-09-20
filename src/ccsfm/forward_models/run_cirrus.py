@@ -1,5 +1,5 @@
 from typing import Optional
-import subprocess
+import os
 
 from ert import (
     ForwardModelStepDocumentation,
@@ -8,9 +8,15 @@ from ert import (
     ForwardModelStepValidationError,
 )
 
+DESCRIPTION = """
+Cirrus, previously known as Pflotran-ogs, is developed by the OpenGoSim group.
+
+"""
+
 
 class Cirrus(ForwardModelStepPlugin):
     EXECUTABLE = "/prog/pflotran/bin/_runcirrus"
+    VERSIONLOCATION = "/prog/pflotran/versions/"
 
     def __init__(self) -> None:
         super().__init__(
@@ -30,13 +36,13 @@ class Cirrus(ForwardModelStepPlugin):
 
     def validate_pre_experiment(self, fm_step_json: ForwardModelStepJSON) -> None:
         version_idx = fm_step_json["argList"].index("-v") + 1
-        return_value = subprocess.run(
-            [self.EXECUTABLE, "--print-versions"],
-            capture_output=True,
-        )
+
+        available_versions = [
+            f for f in os.listdir(self.VERSIONLOCATION) if not f.startswith(".")
+        ]
 
         if (requested_version := fm_step_json["argList"][version_idx]) not in (
-            available_versions := str(return_value.stdout)
+            available_versions
         ):
             raise ForwardModelStepValidationError(
                 f"Requested version: {requested_version}, is not available. Must be one of {available_versions}"
@@ -45,12 +51,11 @@ class Cirrus(ForwardModelStepPlugin):
     @staticmethod
     def documentation() -> Optional[ForwardModelStepDocumentation]:
         return ForwardModelStepDocumentation(
-            category="utility.file_system",
+            category="simulators.reservoir",
             source_package="ccsfm",
             source_function_name="Cirrus",
-            description="Add description here",
+            description="Cirrus,",
             examples="""
             | Add examples here
             """,
         )
-
