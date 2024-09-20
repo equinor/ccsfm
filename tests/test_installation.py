@@ -1,7 +1,7 @@
-from collections import namedtuple
-import pytest
 import subprocess
+from collections import namedtuple
 
+import pytest
 from ert.plugins import ErtPluginManager
 
 from ccsfm.forward_models.run_cirrus import Cirrus

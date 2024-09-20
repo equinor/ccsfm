@@ -29,5 +29,31 @@ dev = ["black", "mypy", "pytest"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
+style = [
+    "pre-commit",
+]
+
+types = [
+    "mypy",
+    "types-setuptools",
+    "types-PyYAML",
+]
+
 [tool.ruff]
 src = ["src"]
+
+[tool.ruff.lint]
+select = [
+  "W",   # pycodestyle
+  "I",   # isort
+  "B",   # flake-8-bugbear
+  "SIM", # flake-8-simplify
+  "F",   # pyflakes
+  "C4",  # flake8-comprehensions
+  "PL",  # pylint
+  "NPY", # numpy specific rules
+]
+
+[tool.ruff.lint.pylint]
+max-args = 20
+
