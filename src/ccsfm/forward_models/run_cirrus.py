@@ -1,4 +1,5 @@
 from typing import Optional
+from pathlib import Path
 import os
 
 from ert import (
@@ -17,7 +18,7 @@ See their homepage for more information about their product https://opengosim.co
 
 class Cirrus(ForwardModelStepPlugin):
     EXECUTABLE = "/prog/pflotran/bin/_runcirrus"
-    VERSIONLOCATION = "/prog/pflotran/versions/"
+    VERSIONLOCATION = "/prog/pflotran/versions"
 
     def __init__(self) -> None:
         super().__init__(
@@ -38,16 +39,28 @@ class Cirrus(ForwardModelStepPlugin):
     def validate_pre_experiment(self, fm_step_json: ForwardModelStepJSON) -> None:
         version_idx = fm_step_json["argList"].index("-v") + 1
 
-        available_versions = [
-            f for f in os.listdir(self.VERSIONLOCATION) if not f.startswith(".")
-        ]
+        requested_version = fm_step_json["argList"][version_idx]
+        self.version_path = Path(f"{ self.VERSIONLOCATION}/{requested_version}")
 
-        if (requested_version := fm_step_json["argList"][version_idx]) not in (
-            available_versions
-        ):
+        if not self.version_path.exists():
+
+            available_versions = [
+                f for f in os.listdir(self.VERSIONLOCATION) if not f.startswith(".")
+            ]
+
             raise ForwardModelStepValidationError(
                 f"Requested Cirrus version: {requested_version}, is not available. Must be one of {available_versions}"
             )
+
+    def validate_pre_realization_run(
+        self, fm_step_json: ForwardModelStepJSON
+    ) -> ForwardModelStepJSON:
+
+        # Version has already been validated, we only need to ensure it is used
+        version_idx = fm_step_json["argList"].index("-v") + 1
+        fm_step_json["argList"][version_idx] = self.version_path.resolve().name
+
+        return fm_step_json
 
     @staticmethod
     def documentation() -> Optional[ForwardModelStepDocumentation]:
