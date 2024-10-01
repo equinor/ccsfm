@@ -11,6 +11,7 @@ from ert import (
 DESCRIPTION = """
 Cirrus, previously known as Pflotran-ogs, is developed by the OpenGoSim group.
 
+See their homepage for more information about their product https://opengosim.com
 """
 
 
@@ -45,7 +46,7 @@ class Cirrus(ForwardModelStepPlugin):
             available_versions
         ):
             raise ForwardModelStepValidationError(
-                f"Requested version: {requested_version}, is not available. Must be one of {available_versions}"
+                f"Requested Cirrus version: {requested_version}, is not available. Must be one of {available_versions}"
             )
 
     @staticmethod
@@ -54,8 +55,10 @@ class Cirrus(ForwardModelStepPlugin):
             category="simulators.reservoir",
             source_package="ccsfm",
             source_function_name="Cirrus",
-            description="Cirrus,",
+            description=DESCRIPTION,
             examples="""
-            | Add examples here
+            FORWARD_MODEL CIRRUS(<CASE>="casename.in")
+
+            FORWARD_MODEL CIRRUS(<CASE>="casename.in", <VERSION>=x.x, <NUM_CPU>=4)
             """,
         )
