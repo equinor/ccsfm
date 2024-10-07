@@ -72,6 +72,6 @@ class Cirrus(ForwardModelStepPlugin):
             examples="""
             FORWARD_MODEL CIRRUS(<CASE>="casename.in")
 
-            FORWARD_MODEL CIRRUS(<CASE>="casename.in", <VERSION>=x.x, <NUM_CPU>=4)
+            FORWARD_MODEL CIRRUS(<CASE>="casename.in", <VERSION>=x.x)
             """,
         )
