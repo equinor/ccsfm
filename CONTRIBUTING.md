@@ -2,16 +2,10 @@
 
 The following is a set of guidelines for contributing to ccsfm.
 
-## Ground Rules
-
-1. Automatic code formatting is applied via pre-commit hooks. You
-   can see how to set that up [here](https://pre-commit.com/).
-2. All code must be testable and unit tested.
-
 ## Tests
 
 Tests are found in the "tests" directory. 
-Tests will make sure that the ccsfm forward model for Cirrus is correctly installed and compatible with ERT.
+Tests will make sure that the CCS forward models are correctly installed and compatible with ERT.
 
 ## Commits
 
