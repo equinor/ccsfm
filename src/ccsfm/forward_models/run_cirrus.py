@@ -13,6 +13,11 @@ DESCRIPTION = """
 Cirrus, previously known as Pflotran-ogs, is developed by the OpenGoSim group.
 
 See their homepage for more information about their product https://opengosim.com
+
+The Forward Model is made to use the resources requested in the ert config. The
+NUM_CPU variable is picked up and used to set the number of cores. It is not
+possible to use multiple nodes in ert (e.g. the -m parameter for runcirrus),
+hence it is not possible to request that through the forward model either.
 """
 
 
