@@ -5,6 +5,7 @@ import os
 from ert import (
     ForwardModelStepDocumentation,
     ForwardModelStepPlugin,
+    ForwardModelStepWarning,
     ForwardModelStepJSON,
     ForwardModelStepValidationError,
 )
@@ -42,13 +43,40 @@ class Cirrus(ForwardModelStepPlugin):
         )
 
     def validate_pre_experiment(self, fm_step_json: ForwardModelStepJSON) -> None:
-        version_idx = fm_step_json["argList"].index("-v") + 1
+        PROTECTED_ARGUMENT = ["<NUM_CPU>"]
+        REQUIRED_ARGUMENTS = ["<CASE>"]
+        OPTIONAL_ARGUMENTS = ["<VERSION>"]
 
+        if protected_arguments_used := [
+            arg for arg in self.private_args if arg in PROTECTED_ARGUMENT
+        ]:
+            raise ForwardModelStepValidationError(
+                f"CIRRUS forward model will use {', '.join(protected_arguments_used)} as set in ert config. It is not allowed to modify"
+            )
+
+        # If an argument exists in fm_step_json['arglist'] it means it has not been substituted with a defined variable from ert config
+        # We check that a required argument must either be in private_args or not present in fm_step_json['arglist']
+        if missing_required_arg := [
+            arg for arg in REQUIRED_ARGUMENTS if arg not in self.private_args and arg in fm_step_json["argList"]
+        ]:
+            raise ForwardModelStepValidationError(
+                f"Missing required arguments: {', '.join(missing_required_arg)}"
+            )
+
+        if unrecognised_arguments := [
+            arg
+            for arg in self.private_args
+            if arg not in REQUIRED_ARGUMENTS + OPTIONAL_ARGUMENTS
+        ]:
+            ForwardModelStepWarning.warn(
+                f"CIRRUS does not recognise the following arguments {', '.join(unrecognised_arguments)}, they can be completely removed"
+            )
+
+        version_idx = fm_step_json["argList"].index("-v") + 1
         requested_version = fm_step_json["argList"][version_idx]
-        self.version_path = Path(f"{ self.VERSIONLOCATION}/{requested_version}")
+        self.version_path = Path(f"{self.VERSIONLOCATION}/{requested_version}")
 
         if not self.version_path.exists():
-
             available_versions = [
                 f for f in os.listdir(self.VERSIONLOCATION) if not f.startswith(".")
             ]
@@ -60,7 +88,6 @@ class Cirrus(ForwardModelStepPlugin):
     def validate_pre_realization_run(
         self, fm_step_json: ForwardModelStepJSON
     ) -> ForwardModelStepJSON:
-
         # Version has already been validated, we only need to ensure it is used
         version_idx = fm_step_json["argList"].index("-v") + 1
         fm_step_json["argList"][version_idx] = self.version_path.resolve().name
