@@ -23,8 +23,8 @@ hence it is not possible to request that through the forward model either.
 
 
 class Cirrus(ForwardModelStepPlugin):
-    EXECUTABLE = "/prog/pflotran/bin/_runcirrus"
-    VERSIONLOCATION = "/prog/pflotran/versions"
+    EXECUTABLE = "/prog/cirrus/bin/runcirrus"
+    VERSIONLOCATION = "/prog/cirrus/versions"
 
     def __init__(self) -> None:
         super().__init__(
