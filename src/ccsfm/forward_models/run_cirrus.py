@@ -21,16 +21,15 @@ possible to use multiple nodes in ert (e.g. the -m parameter for runcirrus),
 hence it is not possible to request that through the forward model either.
 """
 
+EXECUTABLE: str = "/prog/cirrus/bin/runcirrus"
+VERSIONLOCATION: str = "/prog/cirrus/versions"
 
 class Cirrus(ForwardModelStepPlugin):
-    EXECUTABLE: str = "/prog/cirrus/bin/runcirrus"
-    VERSIONLOCATION: str = "/prog/cirrus/versions"
-
     def __init__(self) -> None:
         super().__init__(
             name="CIRRUS",
             command=[
-                self.EXECUTABLE,
+                EXECUTABLE,
                 "-q",
                 "local",
                 "-n",
@@ -76,11 +75,11 @@ class Cirrus(ForwardModelStepPlugin):
 
         version_idx = fm_step_json["argList"].index("-v") + 1
         requested_version = fm_step_json["argList"][version_idx]
-        self.version_path = Path(f"{self.VERSIONLOCATION}/{requested_version}")
+        self.version_path = Path(f"{VERSIONLOCATION}/{requested_version}")
 
         if not self.version_path.exists():
             available_versions = [
-                f for f in os.listdir(self.VERSIONLOCATION) if not f.startswith(".")
+                f for f in os.listdir(VERSIONLOCATION) if not f.startswith(".")
             ]
 
             raise ForwardModelStepValidationError(
