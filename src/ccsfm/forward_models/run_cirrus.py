@@ -57,7 +57,9 @@ class Cirrus(ForwardModelStepPlugin):
         # If an argument exists in fm_step_json['arglist'] it means it has not been substituted with a defined variable from ert config
         # We check that a required argument must either be in private_args or not present in fm_step_json['arglist']
         if missing_required_arg := [
-            arg for arg in REQUIRED_ARGUMENTS if arg not in self.private_args and arg in fm_step_json["argList"]
+            arg
+            for arg in REQUIRED_ARGUMENTS
+            if arg not in self.private_args and arg in fm_step_json["argList"]
         ]:
             raise ForwardModelStepValidationError(
                 f"Missing required arguments: {', '.join(missing_required_arg)}"
