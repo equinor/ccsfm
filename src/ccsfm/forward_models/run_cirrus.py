@@ -38,7 +38,7 @@ class Cirrus(ForwardModelStepPlugin):
                 "<VERSION>",
                 "<CASE>",
             ],
-            default_mapping={"<NUM_CPU>": 1, "<VERSION>": "latest"},
+            default_mapping={"<NUM_CPU>": "1", "<VERSION>": "latest"},
         )
 
     def validate_pre_experiment(self, fm_step_json: ForwardModelStepJSON) -> None:
