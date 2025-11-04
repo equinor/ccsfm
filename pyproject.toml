@@ -11,8 +11,8 @@ authors = [
 ]
 description = "Forward model to run Cirrus in ERT"
 readme = "README.md"
-requires-python = ">=3.8"
-# license = { file = "LICENSE" }
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
 
 dependencies = ["ert"]
 dynamic = ["version"]

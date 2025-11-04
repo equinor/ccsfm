@@ -24,7 +24,10 @@ hence it is not possible to request that through the forward model either.
 EXECUTABLE: str = "/prog/cirrus/bin/runcirrus"
 VERSIONLOCATION: str = "/prog/cirrus/versions"
 
+
 class Cirrus(ForwardModelStepPlugin):
+    version_path: Path = Path()
+
     def __init__(self) -> None:
         super().__init__(
             name="CIRRUS",
