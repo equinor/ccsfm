@@ -2,7 +2,7 @@ from collections import namedtuple
 import pytest
 import subprocess
 
-from ert.plugins import ErtPluginManager
+from ert.plugins import ErtPluginManager, ErtRuntimePlugins
 from ert.config import ErtConfig
 from ert.config.parsing.config_errors import ConfigValidationError
 
@@ -40,7 +40,9 @@ def test_parameter_validation(call_content, expected_failure):
         file.write(config)
 
     with pytest.raises(ConfigValidationError, match=expected_failure):
-        ErtConfig.with_plugins().from_file("config.ert")
+        ErtConfig.with_plugins(
+            ErtRuntimePlugins(installed_forward_model_steps={"CIRRUS": Cirrus()})
+        ).from_file("config.ert")
 
 
 @pytest.mark.uses_cirrus
