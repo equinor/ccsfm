@@ -89,12 +89,16 @@ class Cirrus(ForwardModelStepPlugin):
                 f"Requested Cirrus version: {requested_version}, is not available. Must be one of {available_versions}"
             )
 
+        # Ensure the version path is resolved at the beginning, so that any symlinks are resolved and we guarante that
+        # the same version is used throughout the experiment
+        self.version_path = self.version_path.resolve()
+
     def validate_pre_realization_run(
         self, fm_step_json: ForwardModelStepJSON
     ) -> ForwardModelStepJSON:
         # Version has already been validated, we only need to ensure it is used
         version_idx = fm_step_json["argList"].index("-v") + 1
-        fm_step_json["argList"][version_idx] = self.version_path.resolve().name
+        fm_step_json["argList"][version_idx] = self.version_path.name
 
         return fm_step_json
 
