@@ -96,6 +96,12 @@ class Cirrus(ForwardModelStepPlugin):
     def validate_pre_realization_run(
         self, fm_step_json: ForwardModelStepJSON
     ) -> ForwardModelStepJSON:
+
+        # When running with Everest, the validate pre experiment has not run, hence
+        # self.version_path is not set. Also argList is potentially empty
+        if self.version_path == Path():
+            return fm_step_json
+
         # Version has already been validated, we only need to ensure it is used
         version_idx = fm_step_json["argList"].index("-v") + 1
         fm_step_json["argList"][version_idx] = self.version_path.name
